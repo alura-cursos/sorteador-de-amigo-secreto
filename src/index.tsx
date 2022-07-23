@@ -4,8 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { GlobalStyle } from './globalStyles';
+import { Header } from './components/Header';
+
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyle />
+    <Header />
     <App />
   </React.StrictMode>,
   document.getElementById('root')

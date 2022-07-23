@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 
-import {Formulario} from '../components/Formulario'
+import { Form } from '.'
 
 test('Then the input is empty, new participants shouldn\'t be added', () => {
-  render(<Formulario/>)
+  render(<Form />)
 
   const input = screen.getByPlaceholderText('Insira os nomes dos participantes')
 
