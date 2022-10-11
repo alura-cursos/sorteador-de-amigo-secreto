@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import Form from './Form'
 import { RecoilRoot } from 'recoil'
+import { act } from 'react-dom/test-utils'
 
 /* 
   The AAA pattern
@@ -73,4 +74,41 @@ test('duplicated names cannot be added to the list', () => {
 
   const errorMessage = screen.getByRole('alert')
   expect(errorMessage.textContent).toBe('Nomes duplicados não são permitidos')
+})
+
+test('the error message should be disappear after the timers', () => {
+  jest.useFakeTimers()
+
+  render(
+    <RecoilRoot>
+      <Form />
+    </RecoilRoot>
+  )
+
+  const input = screen.getByPlaceholderText('Insira os nomes dos participantes')
+  const button  = screen.getByRole('button')
+
+  fireEvent.change(input, {
+    target: {
+      value: 'Ana Catarina'
+    }
+  })
+  fireEvent.click(button)
+  fireEvent.change(input, {
+    target: {
+      value: 'Ana Catarina'
+    }
+  })
+  fireEvent.click(button)
+
+  let errorMessage = screen.queryByRole('alert')
+  expect(errorMessage).toBeInTheDocument()
+
+  // esperar N segundos
+  act(() => {
+    jest.runAllTimers()
+  })
+
+  errorMessage = screen.queryByRole('alert')
+  expect(errorMessage).toBeNull()
 })
