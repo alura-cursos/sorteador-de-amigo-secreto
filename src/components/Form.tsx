@@ -1,11 +1,15 @@
 import { useRef, useState } from "react"
 
 import { useAddParticipant } from "../state/hooks/useAddParticipant"
+import { useErrorMessage } from "../state/hooks/useErrorMessage"
 
 const Form = () => {
   const [name, setName] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // custom hooks
   const addParticipantToList = useAddParticipant()
+  const errorMessage = useErrorMessage()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,6 +33,7 @@ const Form = () => {
       >
         Adicionar
       </button>
+      {errorMessage && <p role="alert">{errorMessage}</p>}
     </form>
   )
 }

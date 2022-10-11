@@ -47,3 +47,30 @@ test('add a participant if name input is filled', () => {
   expect(input).toHaveFocus()
   expect(input).toHaveValue('')
 })
+
+test('duplicated names cannot be added to the list', () => {
+  render(
+    <RecoilRoot>
+      <Form />
+    </RecoilRoot>
+  )
+
+  const input = screen.getByPlaceholderText('Insira os nomes dos participantes')
+  const button  = screen.getByRole('button')
+
+  fireEvent.change(input, {
+    target: {
+      value: 'Ana Catarina'
+    }
+  })
+  fireEvent.click(button)
+  fireEvent.change(input, {
+    target: {
+      value: 'Ana Catarina'
+    }
+  })
+  fireEvent.click(button)
+
+  const errorMessage = screen.getByRole('alert')
+  expect(errorMessage.textContent).toBe('Nomes duplicados não são permitidos')
+})
